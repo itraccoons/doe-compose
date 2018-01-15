@@ -1,8 +1,8 @@
 # doe-compose
 
-### repo-stub for now
+###### _repo-stub for now_
 
-### example
+#### Example:
 
     $ mkdir -p ~/workspace/try
     $ cd ~/workspace/try
@@ -28,8 +28,7 @@
     ...
     $ doe compose up
 
-
-
+#### More
 
 Look into
 
