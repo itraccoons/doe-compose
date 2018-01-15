@@ -11,9 +11,11 @@
     pip:
       install: --user
         - yamllint
+    
     builtin:
       export:
         - PATH=~/.local/bin:$PATH
+        - PROJECT_ID=try
       eval:
         - yamllint --strict ./doe-compose.yml; [ $? -ne 0 ] && exit
 
@@ -25,7 +27,18 @@
       nomulus:
         - pull
         - build
+    
+    gcloud:
+      config:
+        - list
+    kubectl:
+      config:
+        - view
+    #gsutils:
+    #  mb: -l us -p $PROJECT_ID
+    #    - gs://$PROJECT_ID-billing    
     ...
+    
     $ doe compose up
 
 #### More
