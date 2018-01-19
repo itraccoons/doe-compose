@@ -1,0 +1,40 @@
+# Deploy Static Website to Google Cloud Platform
+# From Cloud Shell with doe-compose tool
+# $ doe compose up
+---
+pip:
+  install: --user
+    - yamllint
+
+builtin:
+  export:
+    - PATH=~/.local/bin:$PATH
+    - PROJECT_ID=doe-cloud
+    - PROJECT_NAME=doe-cloud
+    - BILLING="00A332-38ABA6-657D6E"
+    - CLUSTER_NAME=test-cl
+  eval:
+    - yamllint --config-data relaxed ./doe-compose.yml; [ $? -ne 0 ] && exit
+
+gcloud:
+  projects:
+    - create $PROJECT_ID --name=$PROJECT_NAME
+  config:
+    - set project $PROJECT_ID
+    - set compute/region us-central
+    - set compute/zone us-central1-a
+  beta: billing projects
+    - link $PROJECT_ID --billing-account=$BILLING; [ $? -ne 0 ] && exit
+
+  container: clusters
+    - create $CLUSTER_NAME
+    - get-credentials $CLUSTER_NAME
+
+kubectl:
+  run:
+    - hello-server --image gcr.io/google-samples/hello-app:1.0 --port 8080
+  expose: deployment
+    - hello-server --type "LoadBalancer"
+  get: service
+    - hello-server
+...
