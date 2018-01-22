@@ -37,4 +37,12 @@ kubectl:
     - hello-server --type "LoadBalancer"
   get: service
     - hello-server
+
+# Clean up
+#kubectl:
+#  delete: service
+#    - hello-server
+#gcloud:
+#  container: clusters
+#    - delete $CLUSTER_NAME
 ...
