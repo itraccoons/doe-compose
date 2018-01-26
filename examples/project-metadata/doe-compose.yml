@@ -1,0 +1,24 @@
+# Deploy Static Website to Google Cloud Platform
+# From Cloud Shell with doe-compose tool
+# $ doe compose up
+---
+builtin:
+  export:
+    - PROJECT_ID=doe-cloud
+    - PROJECT_NAME=doe-cloud
+    - BILLING="00A332-38ABA6-657D6E"
+
+gcloud:
+  projects:
+    - create $PROJECT_ID --name=$PROJECT_NAME
+  config:
+    - set project $PROJECT_ID
+    - set compute/region us-central
+    - set compute/zone us-central1-a
+  beta: billing projects
+    - link $PROJECT_ID --billing-account=$BILLING; [ $? -ne 0 ] && exit
+  compute: project-info add-metadata --metadata
+    - ENDPOINT_IP=127.0.0.1
+    - ENDPOINT_PORT=2099
+...
+# https://www.googleapis.com/compute/v1/projects/doe-cloud
