@@ -1,0 +1,12 @@
+---
+builtin:
+  export:
+    - PROJECT_ID=sales-office
+    - PROJECT_NAME=sales-office
+    - BILLING="000000-000000-000000"
+gcloud:
+  projects:
+    - create $PROJECT_ID --name=$PROJECT_NAME
+  beta: billing projects
+    - link $PROJECT_ID --billing-account=$BILLING; [ $? -ne 0 ] && exit
+...

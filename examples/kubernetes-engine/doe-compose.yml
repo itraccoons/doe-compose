@@ -27,7 +27,7 @@ gcloud:
     - link $PROJECT_ID --billing-account=$BILLING; [ $? -ne 0 ] && exit
 
   container: clusters
-    - create $CLUSTER_NAME
+    - create $CLUSTER_NAME --machine-type f1-micro
     - get-credentials $CLUSTER_NAME
 
 kubectl:
